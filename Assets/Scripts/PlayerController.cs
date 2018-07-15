@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     public ParticleSystem pickedUpEffect;
 
+    public TrailRenderer trail;
+
     private Rigidbody rb;
 
     private int Count { get; set; }
@@ -23,6 +25,11 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         Count = 0;
         SetCount();
+    }
+
+    private void LateUpdate()
+    {
+        trail.transform.position = this.transform.position;
     }
 
     void FixedUpdate()
