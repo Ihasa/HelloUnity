@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
 
     public Text winText;
 
+    public ParticleSystem pickedUpEffect;
+
     private Rigidbody rb;
 
     private int Count { get; set; }
@@ -41,6 +43,8 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(false);
             Count++;
             SetCount();
+            pickedUpEffect.transform.position = this.transform.position;
+            pickedUpEffect.Play();
         }
     }
     
