@@ -11,6 +11,8 @@ public class Projectiler : MonoBehaviour
     public int testSig;
     public int testDirection;
     public float testMinV0Rate;
+    private float testProjectiledZ;
+    private float testGroundZ;
 
     // Use this for initialization
     void Start()
@@ -24,13 +26,15 @@ public class Projectiler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            projectile(testV0, testDistance, testSig);
+            projectile(testDirection * testV0, testDistance, testSig);
             testDirection = -testDirection;
+            testProjectiledZ = gameObject.transform.position.z;
         }
         if (Input.GetKeyDown("l"))
         {
-            projectile(testDistance, testSig);
+            projectile(testDistance, testSig, testDirection);
             testDirection = -testDirection;
+            testProjectiledZ = gameObject.transform.position.z;
         }
         if (Input.GetKeyDown("space"))
         {
@@ -60,17 +64,17 @@ public class Projectiler : MonoBehaviour
         }
 
         //Z - Y
-        rb.velocity = new Vector3(0, v0 * Mathf.Sin(angle), testDirection * v0 * Mathf.Cos(angle));
+        rb.velocity = new Vector3(0, Mathf.Abs(v0) * Mathf.Sin(angle), v0 * Mathf.Cos(angle));
         Debug.Log("angle = "+Mathf.Rad2Deg * angle+",vel = " + rb.velocity);
         Debug.Log("projectile:"+gameObject.transform.position.z);
     }
-    private void projectile(float distance, int sig)
+    private void projectile(float distance, int sig, int direction)
     {
         float y0 = groundY();
         float gravity = -Physics.gravity.y;
         float v0 = Mathf.Sqrt(-y0 + gravity * Mathf.Sqrt(y0 * y0 + distance * distance));
         Debug.Log("Min Velocity = " + v0);
-        projectile(v0*testMinV0Rate, distance, sig);
+        projectile(direction * v0*testMinV0Rate, distance, sig);
     }
 
     private float groundY()
@@ -86,7 +90,6 @@ public class Projectiler : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("ground:" + gameObject.transform.position.z);
-        rb.velocity = Vector3.zero;
+        Debug.Log("飛距離:" + Mathf.Abs(testProjectiledZ - gameObject.transform.position.z));
     }
 }
