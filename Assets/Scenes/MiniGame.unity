@@ -841,7 +841,7 @@ MeshCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 789679449}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 45382ee043d9b01459d6d08f061a81ff, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1345,7 +1345,7 @@ SphereCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1396207902}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d90075cb7334321488c459ef26b23044, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1432,7 +1432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87d1820b32368f46887cc8cffde7fd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testV0: 9
+  testV0: 14
   testDistance: 18
   testSig: 1
   testDirection: 1
