@@ -67,6 +67,7 @@ public class Projectiler : MonoBehaviour
         //Z - Y
         Vector3 vel = new Vector3(0, Mathf.Abs(v0) * Mathf.Sin(angle), v0 * Mathf.Cos(angle));
         rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
+        rb.AddTorque(new Vector3(30, 0, 0) * Mathf.Sign(v0), ForceMode.VelocityChange);
         Debug.Log("angle = "+Mathf.Rad2Deg * angle+",velocity = " + rb.velocity);
         Debug.Log("projectile:"+gameObject.transform.position.z);
     }
