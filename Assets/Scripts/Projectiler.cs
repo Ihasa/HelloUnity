@@ -42,6 +42,7 @@ public class Projectiler : MonoBehaviour
         }
     }
 
+    //空気抵抗あるやつはhttps://qiita.com/kamasu/items/0874022be9a327446665の兄貴がやってる
     private void projectile(float v0, float distance, int sig)
     {
         float y0 = groundY();
@@ -64,8 +65,9 @@ public class Projectiler : MonoBehaviour
         }
 
         //Z - Y
-        rb.velocity = new Vector3(0, Mathf.Abs(v0) * Mathf.Sin(angle), v0 * Mathf.Cos(angle));
-        Debug.Log("angle = "+Mathf.Rad2Deg * angle+",vel = " + rb.velocity);
+        Vector3 vel = new Vector3(0, Mathf.Abs(v0) * Mathf.Sin(angle), v0 * Mathf.Cos(angle));
+        rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
+        Debug.Log("angle = "+Mathf.Rad2Deg * angle+",velocity = " + rb.velocity);
         Debug.Log("projectile:"+gameObject.transform.position.z);
     }
     private void projectile(float distance, int sig, int direction)
@@ -85,7 +87,8 @@ public class Projectiler : MonoBehaviour
     private void jump(float y)
     {
         float speedY = Mathf.Sqrt(2.000f * (-Physics.gravity.y) * y); /* 重力と揚力はともに上が+ */
-        rb.velocity = new Vector3(rb.velocity.x, speedY, rb.velocity.z);
+        Vector3 vel = new Vector3(rb.velocity.x, speedY, rb.velocity.z);
+        rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
     }
 
     public void OnCollisionEnter(Collision collision)
