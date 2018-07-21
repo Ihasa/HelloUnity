@@ -1333,7 +1333,7 @@ GameObject:
   - component: {fileID: 1396207907}
   - component: {fileID: 1396207908}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1401,7 +1401,7 @@ Transform:
   m_GameObject: {fileID: 1396207902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.63, y: 0.62, z: -9.86}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -1413,10 +1413,10 @@ Rigidbody:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1396207902}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.0594
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -1432,12 +1432,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87d1820b32368f46887cc8cffde7fd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testV0: 17
-  testDistance: 7
+  testV0: 9
+  testDistance: 3
   testSig: 1
   testDirection: 1
   testMinV0Rate: 1
-  testSpin: -100
+  testSpin: -30
 --- !u!1 &1562118652
 GameObject:
   m_ObjectHideFlags: 0
@@ -1784,7 +1784,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1914814810
 MeshRenderer:
   m_ObjectHideFlags: 0

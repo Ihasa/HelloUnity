@@ -14,6 +14,7 @@ public class Projectiler : MonoBehaviour
     public float testSpin;
     private float testProjectiledZ;
     private float testGroundZ;
+    private float gravity;
 
     // Use this for initialization
     void Start()
@@ -21,6 +22,7 @@ public class Projectiler : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         Debug.Log(""+this.gameObject.transform.localScale.y);
         rb.maxAngularVelocity = 100;
+        gravity = Physics.gravity.y;
     }
 
     // Update is called once per frame
@@ -29,13 +31,13 @@ public class Projectiler : MonoBehaviour
         float distance = Mathf.Abs(gameObject.transform.position.z) + testDistance;
         if (Input.GetKeyDown(KeyCode.K))
         {
-            projectile(testDirection * testV0, distance, testSig);
+            projectile(testDirection * testV0, distance, testSig, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
         }
         if (Input.GetKeyDown("l"))
         {
-            projectile(distance, testSig, testDirection);
+            projectile(distance, testSig, testDirection, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
         }
@@ -45,12 +47,17 @@ public class Projectiler : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        rb.AddForce(new Vector3(0, gravity, 0), ForceMode.Acceleration);
+    }
+
     //空気抵抗あるやつはhttps://qiita.com/kamasu/items/0874022be9a327446665の兄貴がやってる
-    private void projectile(float v0, float distance, int sig)
+    private void projectile(float v0, float distance, int sig, float spin)
     {
         float y0 = groundY();
-        float gravity = -Physics.gravity.y;
-        float A = -(gravity * distance * distance / (2 * v0 * v0));
+        gravity = Physics.gravity.y;
+        float A = (gravity * distance * distance / (2 * v0 * v0));
         float B = distance;
         float C = y0 + A;
         float D = B * B - 4 * A * C;
@@ -70,17 +77,17 @@ public class Projectiler : MonoBehaviour
         //Z - Y
         Vector3 vel = new Vector3(0, Mathf.Abs(v0) * Mathf.Sin(angle), v0 * Mathf.Cos(angle));
         rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
-        rb.AddTorque(new Vector3(testDirection * testSpin, 0,0) -rb.angularVelocity, ForceMode.VelocityChange);
+        rb.AddTorque(new Vector3(testDirection * spin, 0,0) -rb.angularVelocity, ForceMode.VelocityChange);
         Debug.Log("angle = "+Mathf.Rad2Deg * angle+",velocity = " + rb.velocity);
         Debug.Log("projectile:"+gameObject.transform.position.z);
     }
-    private void projectile(float distance, int sig, int direction)
+    private void projectile(float distance, int sig, int direction, float spin)
     {
         float y0 = groundY();
-        float gravity = -Physics.gravity.y;
-        float v0 = Mathf.Sqrt(-y0 + gravity * Mathf.Sqrt(y0 * y0 + distance * distance));
+        gravity = Physics.gravity.y;
+        float v0 = Mathf.Sqrt(-y0 - gravity * Mathf.Sqrt(y0 * y0 + distance * distance));
         Debug.Log("Min Velocity = " + v0);
-        projectile(direction * v0*testMinV0Rate, distance, sig);
+        projectile(direction * v0*testMinV0Rate, distance, sig, spin);
     }
 
     private float groundY()
@@ -90,10 +97,10 @@ public class Projectiler : MonoBehaviour
 
     private void jump(float y)
     {
-        float speedY = Mathf.Sqrt(2.000f * (-Physics.gravity.y) * y); /* 重力と揚力はともに上が+ */
+        float speedY = Mathf.Sqrt(2.000f * (-gravity) * y); /* 重力と揚力はともに上が+ */
         Vector3 vel = new Vector3(rb.velocity.x, speedY, rb.velocity.z);
         rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
-        rb.AddTorque(new Vector3(testDirection * testSpin, 0, 0) - rb.angularVelocity, ForceMode.VelocityChange);
+        rb.AddTorque(new Vector3(testDirection, 0, 0) - rb.angularVelocity, ForceMode.VelocityChange);
     }
 
     public void OnCollisionEnter(Collision collision)
