@@ -600,7 +600,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 313563199}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1274,18 +1274,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &1271419663
-BoxCollider:
+--- !u!64 &1271419663
+MeshCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1271419662}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 10, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1271419664
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1517,12 +1519,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87d1820b32368f46887cc8cffde7fd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testV0: 9
-  testDistance: 8
+  testV0: 12
+  testAim: {x: 4, y: 0, z: 5}
   testSig: 1
   testDirection: 1
-  testMinV0Rate: 1
   testSpin: -30
+  netHeight: 0.7
 --- !u!1 &1562118652
 GameObject:
   m_ObjectHideFlags: 0
