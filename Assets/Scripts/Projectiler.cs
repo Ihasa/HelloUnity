@@ -41,6 +41,14 @@ public class Projectiler : MonoBehaviour
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
         }
+
+        if (Input.GetKeyDown("j"))
+        {
+            projectileMax(distance, testSig, testDirection, testSpin);
+            testDirection = -testDirection;
+            testProjectiledZ = gameObject.transform.position.z;
+        }
+
         if (Input.GetKeyDown("space"))
         {
             jump(3);
@@ -93,6 +101,18 @@ public class Projectiler : MonoBehaviour
         Debug.Log("Min Velocity = " + v0);
         projectile(direction * v0*testMinV0Rate, distance, sig, spin);
     }
+    private void projectileMax(float distance, int sig, int direction, float spin)
+    {
+        float y0 = groundY();
+        float y1 = 0.914f+0.15f;
+        float x0 = Mathf.Abs(gameObject.transform.position.z);
+        float x1 = distance;
+        float tanTheta = ((y1 - y0)*x1*x1 + x0*x0*y0) / (x0*x1 * (x1-x0));
+        tanTheta = Mathf.Max(tanTheta, -y0 / x1 / 2);
+        float tmp = (-gravity * x1 * x1 * (tanTheta * tanTheta + 1) / (2*(x1*tanTheta+y0)));
+        float v0 = Mathf.Sqrt(tmp);
+        float angle = Mathf.Atan(tanTheta);
+        setVel(v0*direction, spin, angle);
 
     private float groundY()
     {
