@@ -21,7 +21,7 @@ public class Projectiler : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         Debug.Log(""+this.gameObject.transform.localScale.y);
-        rb.maxAngularVelocity = 100;
+        rb.maxAngularVelocity = 100*2*Mathf.PI;
         gravity = Physics.gravity.y;
     }
 
@@ -56,7 +56,6 @@ public class Projectiler : MonoBehaviour
     private void projectile(float v0, float distance, int sig, float spin)
     {
         float y0 = groundY();
-        gravity = Physics.gravity.y;
         float A = (gravity * distance * distance / (2 * v0 * v0));
         float B = distance;
         float C = y0 + A;
@@ -75,16 +74,21 @@ public class Projectiler : MonoBehaviour
         }
 
         //Z - Y
+        setVel(v0, spin, angle);
+    }
+
+    private void setVel(float v0, float spin, float angle)
+    {
         Vector3 vel = new Vector3(0, Mathf.Abs(v0) * Mathf.Sin(angle), v0 * Mathf.Cos(angle));
         rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
-        rb.AddTorque(new Vector3(testDirection * spin, 0,0) -rb.angularVelocity, ForceMode.VelocityChange);
-        Debug.Log("angle = "+Mathf.Rad2Deg * angle+",velocity = " + rb.velocity);
-        Debug.Log("projectile:"+gameObject.transform.position.z);
+        rb.AddTorque(new Vector3(testDirection * spin, 0, 0) * Mathf.PI * 2 - rb.angularVelocity, ForceMode.VelocityChange);
+        Debug.Log("angle = " + Mathf.Rad2Deg * angle + ",velocity = " + rb.velocity);
+        Debug.Log("projectile:" + gameObject.transform.position.z);
     }
+
     private void projectile(float distance, int sig, int direction, float spin)
     {
         float y0 = groundY();
-        gravity = Physics.gravity.y;
         float v0 = Mathf.Sqrt(-y0 - gravity * Mathf.Sqrt(y0 * y0 + distance * distance));
         Debug.Log("Min Velocity = " + v0);
         projectile(direction * v0*testMinV0Rate, distance, sig, spin);
