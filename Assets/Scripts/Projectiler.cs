@@ -11,6 +11,7 @@ public class Projectiler : MonoBehaviour
     public int testSig;
     public int testDirection;
     public float testSpin;
+    public float netHeight;
     private float testProjectiledZ;
     private float testGroundZ;
     private float gravity;
@@ -119,7 +120,7 @@ public class Projectiler : MonoBehaviour
 
         gravity = -9.8f - magnus(spin);
         float y0 = groundY();
-        float y1 = 0.914f+0.15f;
+        float y1 = netHeight;
         float x0 = Mathf.Abs(gameObject.transform.position.z);
         float x1 = distanceAbs;
         float tanTheta = ((y1 - y0)*x1*x1 + x0*x0*y0) / (x0*x1 * (x1-x0));
