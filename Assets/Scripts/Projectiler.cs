@@ -113,6 +113,7 @@ public class Projectiler : MonoBehaviour
         float v0 = Mathf.Sqrt(tmp);
         float angle = Mathf.Atan(tanTheta);
         setVel(v0*direction, spin, angle);
+    }
 
     private float groundY()
     {
@@ -130,5 +131,12 @@ public class Projectiler : MonoBehaviour
     public void OnCollisionEnter(Collision collision)
     {
         Debug.Log("飛距離:" + Mathf.Abs(testProjectiledZ - gameObject.transform.position.z));
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Net"))
+        {
+            Debug.Log("y = " + groundY());
+        }
     }
 }
