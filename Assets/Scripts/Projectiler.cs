@@ -63,6 +63,7 @@ public class Projectiler : MonoBehaviour
     //空気抵抗あるやつはhttps://qiita.com/kamasu/items/0874022be9a327446665の兄貴がやってる
     private void projectile(float v0, float distance, int sig, float spin)
     {
+        gravity = -9.8f - magnus(spin);
         float y0 = groundY();
         float A = (gravity * distance * distance / (2 * v0 * v0));
         float B = distance;
@@ -96,6 +97,7 @@ public class Projectiler : MonoBehaviour
 
     private void projectile(float distance, int sig, int direction, float spin)
     {
+        gravity = -9.8f - magnus(spin);
         float y0 = groundY();
         float v0 = Mathf.Sqrt(-y0 - gravity * Mathf.Sqrt(y0 * y0 + distance * distance));
         Debug.Log("Min Velocity = " + v0);
@@ -103,6 +105,7 @@ public class Projectiler : MonoBehaviour
     }
     private void projectileMax(float distance, int sig, int direction, float spin)
     {
+        gravity = -9.8f - magnus(spin);
         float y0 = groundY();
         float y1 = 0.914f+0.15f;
         float x0 = Mathf.Abs(gameObject.transform.position.z);
@@ -113,6 +116,19 @@ public class Projectiler : MonoBehaviour
         float v0 = Mathf.Sqrt(tmp);
         float angle = Mathf.Atan(tanTheta);
         setVel(v0*direction, spin, angle);
+    }
+
+    private float magnus(float spin)
+    {
+        return Mathf.Lerp(-4, 4, (spin + 50) / 100);
+        //なんかもう断念した
+        /*
+        float p = 1.184f;
+        float d = gameObject.transform.localScale.x;
+        float v = new Vector2(rb.velocity.x, rb.velocity.z).magnitude;
+        float f = (Mathf.PI * Mathf.PI * p * d * d * d * v * spin)/8;
+        return f / rb.mass;
+        */
     }
 
     private float groundY()
@@ -130,6 +146,7 @@ public class Projectiler : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
+        gravity = -9.8f;
         Debug.Log("飛距離:" + Mathf.Abs(testProjectiledZ - gameObject.transform.position.z));
     }
     public void OnTriggerEnter(Collider other)
@@ -137,6 +154,7 @@ public class Projectiler : MonoBehaviour
         if (other.CompareTag("Net"))
         {
             Debug.Log("y = " + groundY());
+            Debug.Log("angVel = " + rb.angularVelocity.x + "magnus = " + magnus(testSpin));
         }
     }
 }
