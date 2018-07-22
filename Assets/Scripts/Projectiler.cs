@@ -7,13 +7,12 @@ public class Projectiler : MonoBehaviour
     private Rigidbody rb;
 
     public float testV0;
-    public float testDistance;
+    public Vector3 testAim;
     public int testSig;
     public int testDirection;
     public float testSpin;
     public float netHeight;
     private float testProjectiledZ;
-    private float testGroundZ;
     private float gravity;
 
     // Use this for initialization
@@ -28,7 +27,7 @@ public class Projectiler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 aim = new Vector3(testDirection * -2.0f, 0, testDistance * testDirection);
+        Vector3 aim = new Vector3(testDirection * testAim.x, 0, testDirection * testAim.z);
         if (Input.GetKeyDown(KeyCode.K))
         {
             projectile(testV0, aim, testSig, testSpin);
@@ -165,7 +164,6 @@ public class Projectiler : MonoBehaviour
         float speedY = Mathf.Sqrt(2.000f * (-gravity) * y); /* 重力と揚力はともに上が+ */
         Vector3 vel = new Vector3(rb.velocity.x, speedY, rb.velocity.z);
         rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
-        rb.AddTorque(new Vector3(testDirection, 0, 0) - rb.angularVelocity, ForceMode.VelocityChange);
     }
 
     public void OnCollisionEnter(Collision collision)
