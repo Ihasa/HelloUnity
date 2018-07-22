@@ -10,7 +10,6 @@ public class Projectiler : MonoBehaviour
     public float testDistance;
     public int testSig;
     public int testDirection;
-    public float testMinV0Rate;
     public float testSpin;
     private float testProjectiledZ;
     private float testGroundZ;
@@ -28,23 +27,23 @@ public class Projectiler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float distance = Mathf.Abs(gameObject.transform.position.z) + testDistance;
+        Vector3 aim = new Vector3(testDirection * -2.0f, 0, testDistance * testDirection);
         if (Input.GetKeyDown(KeyCode.K))
         {
-            projectile(testDirection * testV0, distance, testSig, testSpin);
+            projectile(testV0, aim, testSig, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
         }
         if (Input.GetKeyDown("l"))
         {
-            projectile(distance, testSig, testDirection, testSpin);
+            projectile(aim, testSig, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
         }
 
         if (Input.GetKeyDown("j"))
         {
-            projectileMax(distance, testSig, testDirection, testSpin);
+            projectileMax(aim, testSig, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
         }
@@ -61,12 +60,17 @@ public class Projectiler : MonoBehaviour
     }
 
     //空気抵抗あるやつはhttps://qiita.com/kamasu/items/0874022be9a327446665の兄貴がやってる
-    private void projectile(float v0, float distance, int sig, float spin)
+    private void projectile(float v0, Vector3 aim, int sig, float spin)
     {
+        Vector3 current = gameObject.transform.position;
+        float distance = getDistance(aim);
+        float distanceAbs = Mathf.Abs(distance);
+        float angleX = getAngleX(aim);
+        
         gravity = -9.8f - magnus(spin);
         float y0 = groundY();
-        float A = (gravity * distance * distance / (2 * v0 * v0));
-        float B = distance;
+        float A = (gravity * distanceAbs * distanceAbs / (2 * v0 * v0));
+        float B = distanceAbs;
         float C = y0 + A;
         float D = B * B - 4 * A * C;
         float angle;
@@ -83,39 +87,58 @@ public class Projectiler : MonoBehaviour
         }
 
         //Z - Y
-        setVel(v0, spin, angle);
+        setVel(v0, Mathf.Sign(distance), spin, angle, angleX);
     }
 
-    private void setVel(float v0, float spin, float angle)
+    private void setVel(float v0, float directionZ, float spin, float angle, float angleX)
     {
-        Vector3 vel = new Vector3(0, Mathf.Abs(v0) * Mathf.Sin(angle), v0 * Mathf.Cos(angle));
+        v0 = v0 * directionZ;
+        float vz = v0 * Mathf.Cos(angle);
+        Vector3 vel = new Vector3(vz * Mathf.Tan(angleX), Mathf.Abs(v0) * Mathf.Sin(angle), vz);
         rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
-        rb.AddTorque(new Vector3(testDirection * spin, 0, 0) * Mathf.PI * 2 - rb.angularVelocity, ForceMode.VelocityChange);
+        rb.AddTorque(new Vector3(Mathf.Cos(angleX)*spin, 0, -Mathf.Sin(angleX)*spin) * Mathf.PI * 2 - rb.angularVelocity, ForceMode.VelocityChange);
         Debug.Log("angle = " + Mathf.Rad2Deg * angle + ",velocity = " + rb.velocity);
         Debug.Log("projectile:" + gameObject.transform.position.z);
     }
 
-    private void projectile(float distance, int sig, int direction, float spin)
+    private void projectile(Vector3 aim, int sig, float spin)
     {
+        float distance = getDistance(aim);
+
         gravity = -9.8f - magnus(spin);
         float y0 = groundY();
         float v0 = Mathf.Sqrt(-y0 - gravity * Mathf.Sqrt(y0 * y0 + distance * distance));
         Debug.Log("Min Velocity = " + v0);
-        projectile(direction * v0*testMinV0Rate, distance, sig, spin);
+        projectile(v0, aim, sig, spin);
     }
-    private void projectileMax(float distance, int sig, int direction, float spin)
+    private void projectileMax(Vector3 aim, int sig, float spin)
     {
+        Vector3 current = gameObject.transform.position;
+        float distance = getDistance(aim);
+        float distanceAbs = Mathf.Abs(distance);
+
         gravity = -9.8f - magnus(spin);
         float y0 = groundY();
         float y1 = 0.914f+0.15f;
         float x0 = Mathf.Abs(gameObject.transform.position.z);
-        float x1 = distance;
+        float x1 = distanceAbs;
         float tanTheta = ((y1 - y0)*x1*x1 + x0*x0*y0) / (x0*x1 * (x1-x0));
         tanTheta = Mathf.Max(tanTheta, -y0 / x1 / 2);
         float tmp = (-gravity * x1 * x1 * (tanTheta * tanTheta + 1) / (2*(x1*tanTheta+y0)));
         float v0 = Mathf.Sqrt(tmp);
-        float angle = Mathf.Atan(tanTheta);
-        setVel(v0*direction, spin, angle);
+        projectile(v0, aim, sig, spin);
+    }
+
+    private float getDistance(Vector3 aim)
+    {
+        Vector3 current = gameObject.transform.position;
+        return aim.z - current.z;
+    }
+
+    private float getAngleX(Vector3 aim)
+    {
+        Vector3 current = gameObject.transform.position;
+        return Mathf.Atan2(aim.x - current.x, aim.z - current.z);
     }
 
     private float magnus(float spin)
