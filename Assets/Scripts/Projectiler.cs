@@ -36,6 +36,8 @@ public class Projectiler : MonoBehaviour
         }
         if (Input.GetKeyDown("l"))
         {
+            aim.x = Random.Range(-4, 4);
+            aim.z = Random.Range(6.4f, 11) * testDirection;
             projectile(aim, testSig, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
@@ -43,6 +45,8 @@ public class Projectiler : MonoBehaviour
 
         if (Input.GetKeyDown("j"))
         {
+            aim.x = Random.Range(-4, 4);
+            aim.z = Random.Range(6.4f, 11) * testDirection;
             projectileMax(aim, testSig, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
