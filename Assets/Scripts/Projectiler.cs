@@ -11,7 +11,8 @@ public class Projectiler : MonoBehaviour
     public int testSig;
     public int testDirection;
     public float testSpin;
-    public float netHeight;
+    public float testNetHeight;
+    public GameObject aimedPoint;
     private float testProjectiledZ;
     private float gravity;
 
@@ -33,6 +34,7 @@ public class Projectiler : MonoBehaviour
             projectile(testV0, aim, testSig, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
+            aimedPoint.transform.position = aim;
         }
         if (Input.GetKeyDown("l"))
         {
@@ -41,15 +43,17 @@ public class Projectiler : MonoBehaviour
             projectile(aim, testSig, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
+            aimedPoint.transform.position = aim;
         }
 
         if (Input.GetKeyDown("j"))
         {
-            aim.x = Random.Range(-4, 4);
-            aim.z = Random.Range(6.4f, 11) * testDirection;
-            projectileMax(aim, testSig, testSpin);
+            //aim.x = Random.Range(-4, 4);
+            //aim.z = Random.Range(6.4f, 11) * testDirection;
+            projectileMax(aim, testNetHeight, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
+            aimedPoint.transform.position = aim;
         }
 
         if (Input.GetKeyDown("space"))
@@ -69,7 +73,6 @@ public class Projectiler : MonoBehaviour
         Vector3 current = gameObject.transform.position;
         float distance = getDistance(aim);
         float distanceAbs = Mathf.Abs(distance);
-        float angleX = getAngleX(aim);
         
         gravity = -9.8f - magnus(spin);
         float y0 = groundY();
@@ -91,11 +94,14 @@ public class Projectiler : MonoBehaviour
         }
 
         //Z - Y
-        setVel(v0, Mathf.Sign(distance), spin, angle, angleX);
+        setVel(v0, aim, spin, angle);
     }
 
-    private void setVel(float v0, float directionZ, float spin, float angle, float angleX)
+    private void setVel(float v0, Vector3 aim, float spin, float angle)
     {
+        float angleX = getAngleX(aim);
+        float distance = getDistance(aim);
+        float directionZ = Mathf.Sign(distance);
         v0 = v0 * directionZ;
         float vz = v0 * Mathf.Cos(angle);
         Vector3 vel = new Vector3(vz * Mathf.Tan(angleX), Mathf.Abs(v0) * Mathf.Sin(angle), vz);
@@ -115,7 +121,7 @@ public class Projectiler : MonoBehaviour
         Debug.Log("Min Velocity = " + v0);
         projectile(v0, aim, sig, spin);
     }
-    private void projectileMax(Vector3 aim, int sig, float spin)
+    private void projectileMax(Vector3 aim, float netHeight, float spin)
     {
         Vector3 current = gameObject.transform.position;
         float distance = getDistance(aim);
@@ -130,7 +136,8 @@ public class Projectiler : MonoBehaviour
         tanTheta = Mathf.Max(tanTheta, -y0 / x1 / 2);
         float tmp = (-gravity * x1 * x1 * (tanTheta * tanTheta + 1) / (2*(x1*tanTheta+y0)));
         float v0 = Mathf.Sqrt(tmp);
-        projectile(v0, aim, sig, spin);
+
+        setVel(v0, aim, spin, Mathf.Atan(tanTheta));
     }
 
     private float getDistance(Vector3 aim)
