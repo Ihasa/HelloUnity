@@ -7293,11 +7293,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testV0: 12
-  testAim: {x: 0, y: 0, z: 3}
+  testAim: {x: 0, y: 0, z: 11.885}
+  testAim2: {x: 0, y: 1.828, z: 0}
   testSig: 1
   testDirection: 1
   testSpin: -30
-  testNetHeight: 1.828
   aimedPoint: {fileID: 1066889458}
 --- !u!1 &1518275824
 GameObject:

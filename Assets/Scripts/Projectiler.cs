@@ -8,10 +8,10 @@ public class Projectiler : MonoBehaviour
 
     public float testV0;
     public Vector3 testAim;
+    public Vector3 testAim2;
     public int testSig;
     public int testDirection;
     public float testSpin;
-    public float testNetHeight;
     public GameObject aimedPoint;
     private float testProjectiledZ;
     private float gravity;
@@ -50,7 +50,7 @@ public class Projectiler : MonoBehaviour
         {
             //aim.x = Random.Range(-4, 4);
             //aim.z = Random.Range(6.4f, 11) * testDirection;
-            projectileMax(aim, testNetHeight, testSpin);
+            projectile(aim, testAim2, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
             aimedPoint.transform.position = aim;
@@ -121,7 +121,7 @@ public class Projectiler : MonoBehaviour
         Debug.Log("Min Velocity = " + v0);
         projectile(v0, aim, sig, spin);
     }
-    private void projectileMax(Vector3 aim, float netHeight, float spin)
+    private void projectile(Vector3 aim, Vector3 aim2, float spin)
     {
         Vector3 current = gameObject.transform.position;
         float distance = getDistance(aim);
@@ -129,8 +129,8 @@ public class Projectiler : MonoBehaviour
 
         gravity = -9.8f - magnus(spin);
         float y0 = groundY();
-        float y1 = netHeight;
-        float x0 = Mathf.Abs(gameObject.transform.position.z);
+        float y1 = aim2.y;
+        float x0 = Mathf.Abs(gameObject.transform.position.z) + aim2.z;
         float x1 = distanceAbs;
         float tanTheta = ((y1 - y0)*x1*x1 + x0*x0*y0) / (x0*x1 * (x1-x0));
         tanTheta = Mathf.Max(tanTheta, -y0 / x1 / 2);
