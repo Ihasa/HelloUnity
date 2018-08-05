@@ -28,7 +28,7 @@ public class Projectiler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 aim = new Vector3(testDirection * testAim.x, 0, testDirection * testAim.z);
+        Vector3 aim = new Vector3(testAim.x, 0, testDirection * testAim.z);
         if (Input.GetKeyDown(KeyCode.K))
         {
             projectile(testV0, aim, testSig, testSpin);
