@@ -1504,7 +1504,7 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 84403112d417017458e66ff121f0db4c, type: 3}
+  - {fileID: 2100000, guid: 8d6ff9fc243bcb547bde6ab58e23e846, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1533,8 +1533,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 4.6156873e-17, y: 0.005299998, z: -3.4293052e-10}
-    m_Extent: {x: 0.063990004, y: 0.0053000003, z: 0.000000013035737}
+    m_Center: {x: 0, y: 0.005299998, z: -3.4293035e-10}
+    m_Extent: {x: 0.063990004, y: 0.0053000003, z: 5.83751e-10}
   m_DirtyAABB: 0
 --- !u!1001 &970432347
 Prefab:

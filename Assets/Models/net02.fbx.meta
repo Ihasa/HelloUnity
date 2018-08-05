@@ -9,7 +9,7 @@ ModelImporter:
     400000: Net
     400002: //RootNode
     400004: Pall
-    2100000: Material
+    2100000: Net
     2100002: No Name
     2300000: Net
     2300002: Pall
@@ -22,7 +22,7 @@ ModelImporter:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
