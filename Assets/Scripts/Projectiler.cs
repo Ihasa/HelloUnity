@@ -6,6 +6,8 @@ public class Projectiler : MonoBehaviour
 {
     private Rigidbody rb;
 
+    public float ballRadius = 0.075f;
+
     public float testV0;
     public Vector3 testAim;
     public Vector3 testAim2;
@@ -174,7 +176,7 @@ public class Projectiler : MonoBehaviour
 
     private float groundY()
     {
-        return this.gameObject.transform.position.y - this.gameObject.transform.localScale.y / 2;
+        return this.gameObject.transform.position.y - ballRadius;
     }
 
     private void jump(float y)
