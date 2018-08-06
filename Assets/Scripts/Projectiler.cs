@@ -28,7 +28,7 @@ public class Projectiler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 aim = new Vector3(testAim.x, 0, testDirection * testAim.z);
+        Vector3 aim = new Vector3(testAim.x, testAim.y, testDirection * testAim.z);
         if (Input.GetKeyDown(KeyCode.K))
         {
             projectile(testV0, aim, testSig, testSpin);
@@ -105,10 +105,10 @@ public class Projectiler : MonoBehaviour
         v0 = v0 * directionZ;
         float vz = v0 * Mathf.Cos(angle);
         Vector3 vel = new Vector3(vz * Mathf.Tan(angleX), Mathf.Abs(v0) * Mathf.Sin(angle), vz);
-        rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
-        rb.AddTorque(new Vector3(Mathf.Cos(angleX)*spin, 0, -Mathf.Sin(angleX)*spin) * Mathf.PI * 2 - rb.angularVelocity, ForceMode.VelocityChange);
         Debug.Log("angle = " + Mathf.Rad2Deg * angle + ",velocity = " + rb.velocity);
         Debug.Log("projectile:" + gameObject.transform.position.z);
+        rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
+        rb.AddTorque(new Vector3(Mathf.Cos(angleX)*spin, 0, -Mathf.Sin(angleX)*spin) * Mathf.PI * 2 - rb.angularVelocity, ForceMode.VelocityChange);
     }
 
     private void projectile(Vector3 aim, int sig, float spin)
@@ -130,11 +130,18 @@ public class Projectiler : MonoBehaviour
         gravity = -9.8f - magnus(spin);
         float y0 = groundY();
         float y1 = aim2.y;
-        float x0 = Mathf.Abs(gameObject.transform.position.z) + aim2.z;
-        float x1 = distanceAbs;
-        float tanTheta = ((y1 - y0)*x1*x1 + x0*x0*y0) / (x0*x1 * (x1-x0));
-        tanTheta = Mathf.Max(tanTheta, -y0 / x1 / 2);
-        float tmp = (-gravity * x1 * x1 * (tanTheta * tanTheta + 1) / (2*(x1*tanTheta+y0)));
+        float y2 = aim.y;
+        float x1 = Mathf.Abs(gameObject.transform.position.z) + aim2.z;
+        float x2 = distanceAbs;
+        float tanTheta = ((y1 - y0)*x2*x2 + x1*x1*(y0-y2)) / (x1*x2 * (x2-x1));
+        float tanThetaMin = -(y0 - y2) / x2;
+        if(tanTheta < tanThetaMin)
+        {
+            float d = Mathf.Tan(Mathf.Deg2Rad * 10);
+            tanTheta = (tanThetaMin + d) / (1 - tanThetaMin * d);
+        }
+        float tmp = (-gravity * x2 * x2 * (tanTheta * tanTheta + 1) / (2*(x2*tanTheta+y0-y2)));
+        if (tmp < 0) Debug.Log("HEY:" + tmp + ", Tan" + tanTheta);
         float v0 = Mathf.Sqrt(tmp);
 
         setVel(v0, aim, spin, Mathf.Atan(tanTheta));
