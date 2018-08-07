@@ -30,7 +30,7 @@ public class Projectiler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 aim = new Vector3(testAim.x, testAim.y, testDirection * testAim.z);
+        Vector3 aim = new Vector3(testAim.x, testAim.y, testAim.z);
         if (Input.GetKeyDown(KeyCode.K))
         {
             projectile(testV0, aim, testSig, testSpin);
@@ -184,6 +184,11 @@ public class Projectiler : MonoBehaviour
         float speedY = Mathf.Sqrt(2.000f * (-gravity) * y); /* 重力と揚力はともに上が+ */
         Vector3 vel = new Vector3(rb.velocity.x, speedY, rb.velocity.z);
         rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
+    }
+
+    public void setAim(Vector3 aim)
+    {
+        testAim = aim;
     }
 
     public void OnCollisionEnter(Collision collision)

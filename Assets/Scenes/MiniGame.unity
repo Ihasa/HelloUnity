@@ -504,6 +504,7 @@ MonoBehaviour:
   player: {fileID: 2024098737}
   ball: {fileID: 1396207902}
   height: 1.7
+  projectiler: {fileID: 1396207908}
 --- !u!20 &282840813
 Camera:
   m_ObjectHideFlags: 0
@@ -1282,9 +1283,8 @@ Transform:
   - {fileID: 973417788}
   - {fileID: 1518275825}
   - {fileID: 1211921763}
-  - {fileID: 1066889459}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &970432347
 Prefab:
@@ -1464,8 +1464,8 @@ Transform:
   m_LocalPosition: {x: -1.63, y: 0.62, z: -9.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 916754851}
-  m_RootOrder: 6
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!199 &1066889460
 ParticleSystemRenderer:
@@ -12947,7 +12947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballRadius: 0.075
-  testV0: 12
+  testV0: 11
   testAim: {x: 0, y: 0, z: 11.885}
   testAim2: {x: 0, y: 1.828, z: 0}
   testSig: 1
@@ -13315,7 +13315,7 @@ GameObject:
   - component: {fileID: 1914814813}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13660,7 +13660,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2024098737}
   m_LocalRotation: {x: -0, y: -0, z: 0.0037594782, w: 0.9999929}
-  m_LocalPosition: {x: -0, y: 2.1, z: 0}
+  m_LocalPosition: {x: -0, y: 0.6, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
