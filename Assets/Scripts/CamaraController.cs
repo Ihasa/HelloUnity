@@ -5,16 +5,16 @@ using UnityEngine;
 public class CamaraController : MonoBehaviour {
 
     public GameObject player;
-
-    private Vector3 offset;
+    public GameObject ball;
+    public float height;
 
 	// Use this for initialization
 	void Start () {
-        offset = this.transform.position - player.transform.position;
 	}
 	
 	// Update is called once per frame
 	void LateUpdate () {
-        this.transform.position = player.transform.position + offset;
+        this.transform.position = new Vector3(player.transform.position.x, height, player.transform.position.z);
+        this.transform.LookAt(ball.transform);
 	}
 }
