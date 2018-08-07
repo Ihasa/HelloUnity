@@ -947,7 +947,6 @@ GameObject:
   m_Component:
   - component: {fileID: 475272978}
   - component: {fileID: 475272979}
-  - component: {fileID: 475272980}
   m_Layer: 0
   m_Name: WireR
   m_TagString: Untagged
@@ -961,12 +960,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 475272977}
-  m_LocalRotation: {x: 0, y: 0, z: 0.011405832, w: 0.999935}
+  m_LocalRotation: {x: -0, y: -0, z: 0.011405832, w: 0.999935}
   m_LocalPosition: {x: 3.1995, y: 0.977, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1084411216}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.3070375}
 --- !u!65 &475272979
 BoxCollider:
@@ -976,22 +975,9 @@ BoxCollider:
   m_GameObject: {fileID: 475272977}
   m_Material: {fileID: 13400000, guid: b1127bffe64c0a04c9ee6bd35e5b9f9e, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 6.399, y: 0.02, z: 0.02}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &475272980
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 475272977}
-  m_Material: {fileID: 13400000, guid: b1127bffe64c0a04c9ee6bd35e5b9f9e, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.02
-  m_Height: 6.399
-  m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &511612712
 GameObject:
@@ -1092,7 +1078,6 @@ GameObject:
   m_Component:
   - component: {fileID: 581256846}
   - component: {fileID: 581256847}
-  - component: {fileID: 581256848}
   m_Layer: 0
   m_Name: WireL
   m_TagString: Untagged
@@ -1106,12 +1091,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 581256845}
-  m_LocalRotation: {x: 0, y: 0, z: -0.011405739, w: 0.999935}
+  m_LocalRotation: {x: -0, y: -0, z: -0.011405739, w: 0.999935}
   m_LocalPosition: {x: -3.1995, y: 0.977, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1084411216}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.307037}
 --- !u!65 &581256847
 BoxCollider:
@@ -1121,22 +1106,9 @@ BoxCollider:
   m_GameObject: {fileID: 581256845}
   m_Material: {fileID: 13400000, guid: b1127bffe64c0a04c9ee6bd35e5b9f9e, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 6.399, y: 0.02, z: 0.02}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &581256848
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 581256845}
-  m_Material: {fileID: 13400000, guid: b1127bffe64c0a04c9ee6bd35e5b9f9e, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.02
-  m_Height: 6.399
-  m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &719804831
 Prefab:
@@ -6158,6 +6130,14 @@ Prefab:
     - target: {fileID: 400004, guid: 84403112d417017458e66ff121f0db4c, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 84403112d417017458e66ff121f0db4c, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 400004, guid: 84403112d417017458e66ff121f0db4c, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2300000, guid: 84403112d417017458e66ff121f0db4c, type: 3}
