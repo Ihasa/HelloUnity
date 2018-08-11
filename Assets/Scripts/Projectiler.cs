@@ -193,6 +193,10 @@ public class Projectiler : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            GetComponent<AudioSource>().Play();
+        }
         gravity = -9.8f;
         Debug.Log("飛距離:" + Mathf.Abs(testProjectiledZ - gameObject.transform.position.z));
     }
