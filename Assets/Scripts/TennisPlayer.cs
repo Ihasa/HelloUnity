@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TennisPlayer : MonoBehaviour {
-    public Projectiler ball;
+    public GameObject ballObject;
     public GameObject aimMark;
     public Camera mainCamera;
     public float runSpeed;
     public Vector3 aim;
     public Vector3 aimVia;
-    public float spin;
+    public float spinA;
+    public float spinB;
 
     private IController controller;
+    private Projectiler ballController;
     private AudioSource shotSound;
     private AudioSource runSound;
     private ControllerState cStatePrev;
@@ -19,6 +21,7 @@ public class TennisPlayer : MonoBehaviour {
     // Use this for initialization
     void Start () {
         controller = new ArrowController();
+        ballController = ballObject.GetComponent<Projectiler>();
         AudioSource[] clips = GetComponents<AudioSource>();
         runSound = clips[0];
         shotSound = clips[1];
@@ -47,12 +50,26 @@ public class TennisPlayer : MonoBehaviour {
         {
             runSound.Stop();
         }
-        if (cState.shot)
+        if (cState.shotA)
         {
-            ball.projectile(aim, aimVia, spin);
+            ballController.projectile(aim, aimVia, spinA);
             shotSound.Play();
+        } else if (cState.shotB)
+        {
+            ballController.projectile(aim, aimVia, spinB);
+            shotSound.Play();
+        } else if (cState.toss)
+        {
+            toss(3);
         }
         cStatePrev = cState;
+    }
+
+    public void toss(float height)
+    {
+        ballObject = Instantiate(ballObject, this.transform.position + Vector3.forward + Vector3.up, Quaternion.identity);
+        ballController = ballObject.GetComponent<Projectiler>();
+        ballController.jump(height);
     }
 
 }
@@ -60,7 +77,9 @@ public class TennisPlayer : MonoBehaviour {
 struct ControllerState
 {
     public Vector2 direction;
-    public bool shot;
+    public bool shotA;
+    public bool shotB;
+    public bool toss;
 }
 
 interface IController
@@ -75,7 +94,9 @@ class ArrowController : IController
         ControllerState ret = new ControllerState();
         ret.direction.x = Input.GetAxis("Horizontal");
         ret.direction.y = Input.GetAxis("Vertical");
-        ret.shot = Input.GetMouseButtonDown(0);
+        ret.shotA = Input.GetMouseButtonDown(0);
+        ret.shotB = Input.GetMouseButtonDown(1);
+        ret.toss = Input.GetKeyDown("space");
         return ret;
     }
 }

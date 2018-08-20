@@ -13,13 +13,17 @@ public class Projectiler : MonoBehaviour
     private float currentSpin;
     private float currentVel;
 
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        gravity = Physics.gravity.y;
+    }
+
     // Use this for initialization
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
         Debug.Log(""+this.gameObject.transform.localScale.y);
         rb.maxAngularVelocity = 100*2*Mathf.PI;
-        gravity = Physics.gravity.y;
     }
 
     private void FixedUpdate()
@@ -142,7 +146,7 @@ public class Projectiler : MonoBehaviour
         return this.gameObject.transform.position.y - ballRadius;
     }
 
-    private void jump(float y)
+    public void jump(float y)
     {
         float speedY = Mathf.Sqrt(2.000f * (-gravity) * y); /* 重力と揚力はともに上が+ */
         Vector3 vel = new Vector3(rb.velocity.x, speedY, rb.velocity.z);
