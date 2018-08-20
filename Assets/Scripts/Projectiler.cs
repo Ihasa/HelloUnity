@@ -14,7 +14,6 @@ public class Projectiler : MonoBehaviour
     public int testSig;
     public int testDirection;
     public float testSpin;
-    public GameObject aimedPoint;
     private float testProjectiledZ;
     private float gravity;
 
@@ -36,7 +35,6 @@ public class Projectiler : MonoBehaviour
             projectile(testV0, aim, testSig, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
-            aimedPoint.transform.position = aim;
         }
         if (Input.GetKeyDown("l"))
         {
@@ -45,17 +43,6 @@ public class Projectiler : MonoBehaviour
             projectile(aim, testSig, testSpin);
             testDirection = -testDirection;
             testProjectiledZ = gameObject.transform.position.z;
-            aimedPoint.transform.position = aim;
-        }
-
-        if (Input.GetKeyDown("j"))
-        {
-            //aim.x = Random.Range(-4, 4);
-            //aim.z = Random.Range(6.4f, 11) * testDirection;
-            projectile(aim, testAim2, testSpin);
-            testDirection = -testDirection;
-            testProjectiledZ = gameObject.transform.position.z;
-            aimedPoint.transform.position = aim;
         }
 
         if (Input.GetKeyDown("space"))
@@ -123,7 +110,7 @@ public class Projectiler : MonoBehaviour
         Debug.Log("Min Velocity = " + v0);
         projectile(v0, aim, sig, spin);
     }
-    private void projectile(Vector3 aim, Vector3 aim2, float spin)
+    public void projectile(Vector3 aim, Vector3 aim2, float spin)
     {
         Vector3 current = gameObject.transform.position;
         float distance = getDistance(aim);

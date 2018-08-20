@@ -8,27 +8,10 @@ public class CamaraController : MonoBehaviour {
     public GameObject ball;
     public float height;
     public Projectiler projectiler;
-    private Camera cam;
 
 	// Use this for initialization
 	void Start () {
-        cam = GetComponent<Camera>();
 	}
-
-    private void Update()
-    {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit[] hits = Physics.RaycastAll(ray);
-        foreach (RaycastHit hit in hits)
-        {
-            if (hit.collider.CompareTag("Ground"))
-            {
-                projectiler.testAim = hit.point;
-                projectiler.aimedPoint.transform.position = hit.point;
-            }
-        }
-        
-    }
 
     // Update is called once per frame
     void LateUpdate () {

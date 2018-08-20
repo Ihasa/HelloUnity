@@ -12954,7 +12954,6 @@ MonoBehaviour:
   testSig: 1
   testDirection: 1
   testSpin: -30
-  aimedPoint: {fileID: 1066889458}
 --- !u!82 &1396207909
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13687,6 +13686,7 @@ GameObject:
   - component: {fileID: 2024098739}
   - component: {fileID: 2024098738}
   - component: {fileID: 2024098742}
+  - component: {fileID: 2024098746}
   - component: {fileID: 2024098743}
   - component: {fileID: 2024098744}
   - component: {fileID: 2024098745}
@@ -13770,7 +13770,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2024098737}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eaa0ce2c4270fd448b4984a2ab33ffa1, type: 3}
   m_Name: 
@@ -13983,6 +13983,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2024098746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2024098737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7abbf6dd2d33d22408c612e6623da7b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ball: {fileID: 1396207908}
+  aimMark: {fileID: 1066889458}
+  mainCamera: {fileID: 282840813}
+  aim: {x: 0, y: 0, z: 0}
+  aimVia: {x: 0, y: 0, z: 0}
+  spin: 0
 --- !u!1 &2063242325
 GameObject:
   m_ObjectHideFlags: 0
