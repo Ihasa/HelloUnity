@@ -12,9 +12,17 @@ public class TennisPlayer : MonoBehaviour {
     public float spin;
 
     private IController controller;
-	// Use this for initialization
-	void Start () {
+    private AudioSource shotSound;
+    private AudioSource runSound;
+    private ControllerState cStatePrev;
+
+    // Use this for initialization
+    void Start () {
         controller = new ArrowController();
+        AudioSource[] clips = GetComponents<AudioSource>();
+        runSound = clips[0];
+        shotSound = clips[1];
+        cStatePrev = new ControllerState();
 	}
 	
 	// Update is called once per frame
@@ -32,12 +40,21 @@ public class TennisPlayer : MonoBehaviour {
 
         ControllerState cState = controller.GetControllerState();
         this.gameObject.transform.position += new Vector3(cState.direction.x, 0, cState.direction.y) * 5 * Time.deltaTime;
+        if(cStatePrev.direction == Vector2.zero && cState.direction != Vector2.zero)
+        {
+            runSound.Play();
+        } else if(cStatePrev.direction != Vector2.zero && cState.direction == Vector2.zero)
+        {
+            runSound.Stop();
+        }
         if (cState.shot)
         {
             //aim.x = Random.Range(-4, 4);
             //aim.z = Random.Range(6.4f, 11) * testDirection;
             ball.projectile(aim, aimVia, spin);
+            shotSound.Play();
         }
+        cStatePrev = cState;
     }
 
 }
