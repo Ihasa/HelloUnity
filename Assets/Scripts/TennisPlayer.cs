@@ -6,7 +6,7 @@ public class TennisPlayer : MonoBehaviour {
     public Projectiler ball;
     public GameObject aimMark;
     public Camera mainCamera;
-
+    public float runSpeed;
     public Vector3 aim;
     public Vector3 aimVia;
     public float spin;
@@ -39,7 +39,7 @@ public class TennisPlayer : MonoBehaviour {
         }
 
         ControllerState cState = controller.GetControllerState();
-        this.gameObject.transform.position += new Vector3(cState.direction.x, 0, cState.direction.y) * 5 * Time.deltaTime;
+        this.gameObject.transform.position += new Vector3(cState.direction.x, 0, cState.direction.y) * runSpeed * Time.deltaTime;
         if(cStatePrev.direction == Vector2.zero && cState.direction != Vector2.zero)
         {
             runSound.Play();
@@ -49,8 +49,6 @@ public class TennisPlayer : MonoBehaviour {
         }
         if (cState.shot)
         {
-            //aim.x = Random.Range(-4, 4);
-            //aim.z = Random.Range(6.4f, 11) * testDirection;
             ball.projectile(aim, aimVia, spin);
             shotSound.Play();
         }

@@ -7,7 +7,6 @@ public class CamaraController : MonoBehaviour {
     public GameObject player;
     public GameObject ball;
     public float height;
-    public Projectiler projectiler;
 
 	// Use this for initialization
 	void Start () {

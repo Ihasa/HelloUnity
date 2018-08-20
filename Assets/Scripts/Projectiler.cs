@@ -5,17 +5,13 @@ using UnityEngine;
 public class Projectiler : MonoBehaviour
 {
     private Rigidbody rb;
-
     public float ballRadius = 0.075f;
 
-    public float testV0;
-    public Vector3 testAim;
-    public Vector3 testAim2;
-    public int testSig;
-    public int testDirection;
-    public float testSpin;
-    private float testProjectiledZ;
     private float gravity;
+    private Vector3 projectiled;
+    private Vector3 currentAim;
+    private float currentSpin;
+    private float currentVel;
 
     // Use this for initialization
     void Start()
@@ -24,31 +20,6 @@ public class Projectiler : MonoBehaviour
         Debug.Log(""+this.gameObject.transform.localScale.y);
         rb.maxAngularVelocity = 100*2*Mathf.PI;
         gravity = Physics.gravity.y;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Vector3 aim = new Vector3(testAim.x, testAim.y, testAim.z);
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            projectile(testV0, aim, testSig, testSpin);
-            testDirection = -testDirection;
-            testProjectiledZ = gameObject.transform.position.z;
-        }
-        if (Input.GetKeyDown("l"))
-        {
-            aim.x = Random.Range(-4, 4);
-            aim.z = Random.Range(6.4f, 11) * testDirection;
-            projectile(aim, testSig, testSpin);
-            testDirection = -testDirection;
-            testProjectiledZ = gameObject.transform.position.z;
-        }
-
-        if (Input.GetKeyDown("space"))
-        {
-            jump(3);
-        }
     }
 
     private void FixedUpdate()
@@ -98,6 +69,11 @@ public class Projectiler : MonoBehaviour
         Debug.Log("projectile:" + gameObject.transform.position.z);
         rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
         rb.AddTorque(new Vector3(Mathf.Cos(angleX)*spin, 0, -Mathf.Sin(angleX)*spin) * Mathf.PI * 2 - rb.angularVelocity, ForceMode.VelocityChange);
+
+        currentAim = aim;
+        currentVel = v0;
+        currentSpin = spin;
+        projectiled = gameObject.transform.position;
     }
 
     private void projectile(Vector3 aim, int sig, float spin)
@@ -173,11 +149,6 @@ public class Projectiler : MonoBehaviour
         rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
     }
 
-    public void setAim(Vector3 aim)
-    {
-        testAim = aim;
-    }
-
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -185,14 +156,14 @@ public class Projectiler : MonoBehaviour
             GetComponent<AudioSource>().Play();
         }
         gravity = -9.8f;
-        Debug.Log("飛距離:" + Mathf.Abs(testProjectiledZ - gameObject.transform.position.z));
+        Debug.Log("飛距離:" + Mathf.Abs(projectiled.z - gameObject.transform.position.z));
     }
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Net"))
         {
             Debug.Log("y = " + groundY());
-            Debug.Log("angVel = " + rb.angularVelocity.x + "magnus = " + magnus(testSpin));
+            Debug.Log("angVel = " + rb.angularVelocity.x + "magnus = " + magnus(currentSpin));
         }
     }
 }

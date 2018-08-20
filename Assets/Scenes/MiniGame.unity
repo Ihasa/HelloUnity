@@ -13997,6 +13997,7 @@ MonoBehaviour:
   ball: {fileID: 1396207908}
   aimMark: {fileID: 1066889458}
   mainCamera: {fileID: 282840813}
+  runSpeed: 5
   aim: {x: 0, y: 0, z: 0}
   aimVia: {x: 0, y: 2, z: 0}
   spin: 0
