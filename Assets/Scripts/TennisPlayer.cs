@@ -19,9 +19,11 @@ public class TennisPlayer : MonoBehaviour {
     private IMoveController moveController;
     private IAimController aimController;
     private Projectiler ballController;
+    private Rigidbody rb;
     private AudioSource shotSound;
     private AudioSource runSound;
     private Vector2 cStateMovePrev;
+    private bool shottable = false;
 
     // Use this for initialization
     void Start () {
@@ -30,6 +32,7 @@ public class TennisPlayer : MonoBehaviour {
         aimController = isAutoAim ? (IAimController)new AutoAimController(gameObject) : (IAimController)new MouseAimController(mainCamera);
 
         ballController = ballObject.GetComponent<Projectiler>();
+        rb = GetComponent<Rigidbody>();
         AudioSource[] clips = GetComponents<AudioSource>();
         runSound = clips[0];
         shotSound = clips[1];
@@ -44,7 +47,7 @@ public class TennisPlayer : MonoBehaviour {
 
 
         Vector2 cStateMove = moveController.GetDirection();
-        this.gameObject.transform.position += new Vector3(cStateMove.x, 0, cStateMove.y) * runSpeed * Time.deltaTime;
+        rb.AddForce(new Vector3(cStateMove.x, 0, cStateMove.y) * runSpeed - rb.velocity, ForceMode.VelocityChange);
         if(cStateMovePrev == Vector2.zero && cStateMove != Vector2.zero)
         {
             runSound.Play();
@@ -55,14 +58,17 @@ public class TennisPlayer : MonoBehaviour {
         cStateMovePrev = cStateMove;
 
         ShotControllerState cStateShot = shotController.GetControllerState();
-        if (cStateShot.shotA)
-        {
-            ballController.projectile(aim, aimVia, spinA);
-            shotSound.Play();
-        } else if (cStateShot.shotB)
-        {
-            ballController.projectile(aim, aimVia, spinB);
-            shotSound.Play();
+        if (shottable) {
+            if (cStateShot.shotA)
+            {
+                ballController.projectile(aim, aimVia, spinA);
+                shotSound.Play();
+            }
+            else if (cStateShot.shotB)
+            {
+                ballController.projectile(aim, aimVia, spinB);
+                shotSound.Play();
+            }
         } else if (cStateShot.toss)
         {
             toss(3);
@@ -72,6 +78,22 @@ public class TennisPlayer : MonoBehaviour {
     public void toss(float height)
     {
         ballController.jump(height);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ball"))
+        {
+            shottable = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Ball"))
+        {
+            shottable = false;
+        }
     }
 
 }

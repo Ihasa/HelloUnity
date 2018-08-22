@@ -21,11 +21,12 @@ GameObject:
   - component: {fileID: 4307338356473998}
   - component: {fileID: 33871331082839712}
   - component: {fileID: 23834606503501380}
-  - component: {fileID: 135013374866245910}
   - component: {fileID: 114787564116711804}
   - component: {fileID: 114398507809222596}
   - component: {fileID: 82095167278473194}
   - component: {fileID: 82412636951998134}
+  - component: {fileID: 54655157019298110}
+  - component: {fileID: 65052608109824946}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -88,6 +89,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1714186832603340}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &54655157019298110
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1714186832603340}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65052608109824946
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1714186832603340}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!82 &82095167278473194
 AudioSource:
   m_ObjectHideFlags: 1
@@ -314,15 +342,3 @@ MonoBehaviour:
   speed: 15
   countText: {fileID: 0}
   winText: {fileID: 0}
---- !u!135 &135013374866245910
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1714186832603340}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
