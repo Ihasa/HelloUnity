@@ -15,6 +15,5 @@ public class CamaraController : MonoBehaviour {
     void LateUpdate () {
         GameObject ball = player.GetComponent<TennisPlayer>().ballObject;
         this.transform.position = new Vector3(player.transform.position.x, height, player.transform.position.z);
-        this.transform.LookAt(new Vector3(ball.transform.position.x / 2, height, ball.transform.position.z/2));
 	}
 }

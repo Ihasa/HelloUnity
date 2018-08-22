@@ -206,13 +206,14 @@ interface IAimController
 class MouseAimController : IAimController
 {
     private Camera mainCamera;
+    private Vector3 prevAim = new Vector3(0, 10, 0);
     public MouseAimController(Camera mainCamera)
     {
         this.mainCamera = mainCamera;
     }
     public Vector3 GetAim()
     {
-        Vector3 result = Vector3.zero;
+        Vector3? result = null;
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll(ray);
         foreach (RaycastHit hit in hits)
@@ -220,9 +221,11 @@ class MouseAimController : IAimController
             if (hit.collider.CompareTag("Ground"))
             {
                 result = hit.point;
+                prevAim = hit.point;
+                break;
             }
         }
-        return result;
+        return result ?? prevAim;
     }
 }
 
