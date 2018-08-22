@@ -28,7 +28,7 @@ public class TennisPlayer : MonoBehaviour {
     // Use this for initialization
     void Start () {
         shotController = isAutoShot ? (IShotController)new AutoShotController(gameObject, ballObject.GetComponent<Rigidbody>()) : (IShotController)new KeyShotController();
-        moveController = isAutoMove ? (IMoveController)new AutoMoveController(gameObject, ballObject.GetComponent<Rigidbody>()) : (IMoveController)new KeyMoveController();
+        moveController = isAutoMove ? (IMoveController)new AutoMoveController(gameObject, ballObject.GetComponent<Projectiler>(), ballObject.GetComponent<Rigidbody>()) : (IMoveController)new KeyMoveController();
         aimController = isAutoAim ? (IAimController)new AutoAimController(gameObject) : (IAimController)new MouseAimController(mainCamera);
 
         ballController = ballObject.GetComponent<Projectiler>();
@@ -139,10 +139,7 @@ class AutoShotController : IShotController
         if(Mathf.Sign(ballRigidbody.transform.position.z) == Mathf.Sign(player.transform.position.z) && 
            Mathf.Sign(ballRigidbody.velocity.z) == Mathf.Sign(player.transform.position.z))
         {
-            if (Mathf.Abs(ballRigidbody.transform.position.z) > 6.4f)
-            {
-                cState.shotA = !prev.shotA;
-            }
+            cState.shotA = !prev.shotA;
         }
         prev = cState;
         return cState;
@@ -168,18 +165,20 @@ class KeyMoveController : IMoveController
 class AutoMoveController : IMoveController
 {
     private GameObject player;
+    private Projectiler ball;
     private Rigidbody rb;
-    public AutoMoveController(GameObject player, Rigidbody rb)
+    public AutoMoveController(GameObject player, Projectiler ball, Rigidbody rb)
     {
         this.player = player;
+        this.ball = ball;
         this.rb = rb;
     }
     public Vector2 GetDirection()
     {
         Vector3 pos;
-        if (Mathf.Sign(rb.velocity.z) == Mathf.Sign(player.transform.position.z) && rb.velocity.z != 0)
+        if (Mathf.Sign(rb.velocity.z) == Mathf.Sign(player.transform.position.z) && ball.aimedPoint != null)
         {
-            pos = rb.transform.position;
+            pos = (Vector3)ball.aimedPoint + new Vector3(rb.velocity.x, 0, rb.velocity.z)*0.5f;
         } else
         {
             pos = new Vector3(0, 0, 13 * Mathf.Sign(player.transform.position.z));

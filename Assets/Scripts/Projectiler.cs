@@ -6,10 +6,10 @@ public class Projectiler : MonoBehaviour
 {
     private Rigidbody rb;
     public float ballRadius = 0.075f;
+    public Vector3? aimedPoint = null;
 
     private float gravity;
     private Vector3 projectiled;
-    private Vector3 currentAim;
     private float currentSpin;
     private float currentVel;
 
@@ -74,7 +74,7 @@ public class Projectiler : MonoBehaviour
         rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
         rb.AddTorque(new Vector3(Mathf.Cos(angleX)*spin, 0, -Mathf.Sin(angleX)*spin) * Mathf.PI * 2 - rb.angularVelocity, ForceMode.VelocityChange);
 
-        currentAim = aim;
+        aimedPoint = aim;
         currentVel = v0;
         currentSpin = spin;
         projectiled = gameObject.transform.position;
