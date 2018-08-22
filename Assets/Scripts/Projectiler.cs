@@ -7,6 +7,7 @@ public class Projectiler : MonoBehaviour
     private Rigidbody rb;
     public float ballRadius = 0.075f;
     public Vector3? aimedPoint = null;
+    public int bounds;
 
     private float gravity;
     private Vector3 projectiled;
@@ -74,6 +75,7 @@ public class Projectiler : MonoBehaviour
         rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
         rb.AddTorque(new Vector3(Mathf.Cos(angleX)*spin, 0, -Mathf.Sin(angleX)*spin) * Mathf.PI * 2 - rb.angularVelocity, ForceMode.VelocityChange);
 
+        bounds = 0;
         aimedPoint = aim;
         currentVel = v0;
         currentSpin = spin;
@@ -149,7 +151,7 @@ public class Projectiler : MonoBehaviour
     public void jump(float y)
     {
         float speedY = Mathf.Sqrt(2.000f * (-gravity) * y); /* 重力と揚力はともに上が+ */
-        Vector3 vel = new Vector3(rb.velocity.x, speedY, rb.velocity.z);
+        Vector3 vel = new Vector3(0, speedY, 0);
         rb.AddForce(vel - rb.velocity, ForceMode.VelocityChange);
     }
 
@@ -158,6 +160,11 @@ public class Projectiler : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             GetComponent<AudioSource>().Play();
+            bounds++;
+        }
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            bounds++;
         }
         gravity = -9.8f;
         Debug.Log("飛距離:" + Mathf.Abs(projectiled.z - gameObject.transform.position.z));

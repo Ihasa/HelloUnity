@@ -69,12 +69,16 @@ public class TennisPlayer : MonoBehaviour {
             }
         } else if (cStateShot.toss)
         {
-            toss(3);
+            if (ballController.bounds >= 2)
+            {
+                toss(3);
+            }
         }
     }
 
     public void toss(float height)
     {
+        ballObject.transform.position = gameObject.transform.position + Vector3.forward;
         ballController.jump(height);
     }
 
@@ -174,7 +178,7 @@ class AutoMoveController : IMoveController
     public Vector2 GetDirection()
     {
         Vector3 pos;
-        if (Mathf.Sign(rb.velocity.z) == Mathf.Sign(player.transform.position.z) && ball.aimedPoint != null)
+        if (Mathf.Sign(rb.velocity.z) == Mathf.Sign(player.transform.position.z) && ball.aimedPoint != null && ball.bounds <= 2)
         {
             pos = (Vector3)ball.aimedPoint + new Vector3(rb.velocity.x, 0, rb.velocity.z)*0.5f;
         } else
