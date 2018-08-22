@@ -28,7 +28,7 @@ public class TennisPlayer : MonoBehaviour {
     void Start () {
         shotController = isAutoShot ? (IShotController)new AutoShotController(gameObject, ballObject.GetComponent<Rigidbody>()) : (IShotController)new KeyShotController();
         moveController = isAutoMove ? (IMoveController)new AutoMoveController(gameObject, ballObject.GetComponent<Projectiler>(), ballObject.GetComponent<Rigidbody>()) : (IMoveController)new KeyMoveController();
-        aimController = isAutoAim ? (IAimController)new AutoAimController(gameObject,aimVia) : (IAimController)new MouseAimController(mainCamera,aimVia);
+        aimController = isAutoAim ? (IAimController)new AutoAimController(gameObject,aimVia,new Vector2(-4,4),new Vector2(6,9)) : (IAimController)new MouseAimController(mainCamera,aimVia);
 
         ballController = ballObject.GetComponent<Projectiler>();
         rb = GetComponent<Rigidbody>();
@@ -257,16 +257,20 @@ class AutoAimController : IAimController
 {
     private GameObject player;
     private Vector3 defaultAimVia;
-    public AutoAimController(GameObject player, Vector3 defaultAimVia)
+    private Vector2 aimRangeX;
+    private Vector2 aimRangeZ;
+    public AutoAimController(GameObject player, Vector3 defaultAimVia, Vector2 aimRangeX, Vector2 aimRangeZ)
     {
         this.player = player;
         this.defaultAimVia = defaultAimVia;
+        this.aimRangeX = aimRangeX;
+        this.aimRangeZ = aimRangeZ;
     }
     public AimControllerState GetAim()
     {
         return new AimControllerState(
-            new Vector3(Random.Range(-2, 2), 0, Mathf.Sign(player.transform.position.z) * -7),
-            defaultAimVia
+            new Vector3(Random.Range(aimRangeX.x, aimRangeX.y), 0, -Mathf.Sign(player.transform.position.z) * Random.Range(aimRangeZ.x, aimRangeZ.y)),
+            defaultAimVia // + Vector3.up * Random.Range(-aimRangeY.x, aimRangeY.y)
         );
     }
 }
