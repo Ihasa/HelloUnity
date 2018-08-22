@@ -7,7 +7,6 @@ public class TennisPlayer : MonoBehaviour {
     public GameObject aimMark;
     public Camera mainCamera;
     public float runSpeed;
-    public Vector3 aim;
     public Vector3 aimVia;
     public float spinA;
     public float spinB;
@@ -29,7 +28,7 @@ public class TennisPlayer : MonoBehaviour {
     void Start () {
         shotController = isAutoShot ? (IShotController)new AutoShotController(gameObject, ballObject.GetComponent<Rigidbody>()) : (IShotController)new KeyShotController();
         moveController = isAutoMove ? (IMoveController)new AutoMoveController(gameObject, ballObject.GetComponent<Projectiler>(), ballObject.GetComponent<Rigidbody>()) : (IMoveController)new KeyMoveController();
-        aimController = isAutoAim ? (IAimController)new AutoAimController(gameObject) : (IAimController)new MouseAimController(mainCamera);
+        aimController = isAutoAim ? (IAimController)new AutoAimController(gameObject,aimVia) : (IAimController)new MouseAimController(mainCamera,aimVia);
 
         ballController = ballObject.GetComponent<Projectiler>();
         rb = GetComponent<Rigidbody>();
@@ -41,11 +40,6 @@ public class TennisPlayer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Vector3 cStateAim = aimController.GetAim();
-        aim = cStateAim;
-        aimMark.transform.position = aim;
-
-
         Vector2 cStateMove = moveController.GetDirection();
         rb.AddForce(new Vector3(cStateMove.x, 0, cStateMove.y) * runSpeed - rb.velocity, ForceMode.VelocityChange);
         if(cStateMovePrev == Vector2.zero && cStateMove != Vector2.zero)
@@ -57,16 +51,19 @@ public class TennisPlayer : MonoBehaviour {
         }
         cStateMovePrev = cStateMove;
 
+        AimControllerState cStateAim = aimController.GetAim();
+        aimMark.transform.position = cStateAim.aim;
+
         ShotControllerState cStateShot = shotController.GetControllerState();
         if (shottable) {
             if (cStateShot.shotA)
             {
-                ballController.projectile(aim, aimVia, spinA);
+                ballController.projectile(cStateAim.aim, cStateAim.aimVia, spinA);
                 shotSound.Play();
             }
             else if (cStateShot.shotB)
             {
-                ballController.projectile(aim, aimVia, spinB);
+                ballController.projectile(cStateAim.aim, cStateAim.aimVia, spinB);
                 shotSound.Play();
             }
         } else if (cStateShot.toss)
@@ -198,20 +195,33 @@ class AutoMoveController : IMoveController
     }
 }
 
+struct AimControllerState
+{
+    public Vector3 aim;
+    public Vector3 aimVia;
+    public AimControllerState(Vector3 aim, Vector3 aimVia)
+    {
+        this.aim = aim;
+        this.aimVia = aimVia;
+    }
+}
+
 interface IAimController
 {
-    Vector3 GetAim();
+    AimControllerState GetAim();
 }
 
 class MouseAimController : IAimController
 {
     private Camera mainCamera;
     private Vector3 prevAim = new Vector3(0, 10, 0);
-    public MouseAimController(Camera mainCamera)
+    private Vector3 defaultAimVia;
+    public MouseAimController(Camera mainCamera, Vector3 defaultAimVia)
     {
         this.mainCamera = mainCamera;
+        this.defaultAimVia = defaultAimVia;
     }
-    public Vector3 GetAim()
+    public AimControllerState GetAim()
     {
         Vector3? result = null;
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -225,20 +235,28 @@ class MouseAimController : IAimController
                 break;
             }
         }
-        return result ?? prevAim;
+        return new AimControllerState(
+            result ?? prevAim,
+            defaultAimVia
+        );
     }
 }
 
 class AutoAimController : IAimController
 {
     private GameObject player;
-    public AutoAimController(GameObject player)
+    private Vector3 defaultAimVia;
+    public AutoAimController(GameObject player, Vector3 defaultAimVia)
     {
         this.player = player;
+        this.defaultAimVia = defaultAimVia;
     }
-    public Vector3 GetAim()
+    public AimControllerState GetAim()
     {
-        return new Vector3(Random.Range(-2,2), 0, Mathf.Sign(player.transform.position.z) * -7);
+        return new AimControllerState(
+            new Vector3(Random.Range(-2, 2), 0, Mathf.Sign(player.transform.position.z) * -7),
+            defaultAimVia
+        );
     }
 }
 
