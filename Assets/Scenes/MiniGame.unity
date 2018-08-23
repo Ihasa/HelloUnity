@@ -411,7 +411,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4349983083528472, guid: 014cea7d44c2e7743a0d3a9367832b1e, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -1.63
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 4349983083528472, guid: 014cea7d44c2e7743a0d3a9367832b1e, type: 2}
       propertyPath: m_LocalPosition.y
@@ -419,7 +419,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4349983083528472, guid: 014cea7d44c2e7743a0d3a9367832b1e, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -9.86
+      value: -10.62
       objectReference: {fileID: 0}
     - target: {fileID: 4349983083528472, guid: 014cea7d44c2e7743a0d3a9367832b1e, type: 2}
       propertyPath: m_LocalRotation.x
@@ -13087,7 +13087,7 @@ Transform:
   m_PrefabInternal: {fileID: 203981950}
   m_GameObject: {fileID: 1396207902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.63, y: 0.62, z: -9.86}
+  m_LocalPosition: {x: -0.05, y: 0.62, z: -10.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1169482023}
@@ -13737,6 +13737,21 @@ Prefab:
         type: 2}
       propertyPath: aimVia.y
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114398507809222596, guid: 5b9245631360c1c4b95ada9ea1877e6c,
+        type: 2}
+      propertyPath: isAutoMove
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114398507809222596, guid: 5b9245631360c1c4b95ada9ea1877e6c,
+        type: 2}
+      propertyPath: isAutoShot
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114398507809222596, guid: 5b9245631360c1c4b95ada9ea1877e6c,
+        type: 2}
+      propertyPath: isAutoAim
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
