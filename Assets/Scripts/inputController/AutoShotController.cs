@@ -6,6 +6,7 @@ public class AutoShotController : MonoBehaviour, IShotController {
     public GameObject ball;
     private Rigidbody ballRigidbody;
     private ShotControllerState prev;
+    private bool result = false;
 
     void Awake()
     {
@@ -19,7 +20,14 @@ public class AutoShotController : MonoBehaviour, IShotController {
         if (Mathf.Sign(ballRigidbody.transform.position.z) == Mathf.Sign(gameObject.transform.position.z) &&
            Mathf.Sign(ballRigidbody.velocity.z) == Mathf.Sign(gameObject.transform.position.z))
         {
-            cState.shotA = !prev.shotA;
+            result = !result;
+            if (Random.Range(0.0f, 1.0f) < 0.5f)
+            {
+                cState.shotA = result;
+            } else
+            {
+                cState.shotB = result;
+            }
         }
         prev = cState;
         return cState;
