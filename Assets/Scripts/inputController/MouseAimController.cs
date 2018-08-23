@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MouseAimController : MonoBehaviour, IAimController{
-    private Camera mainCamera;
-    private Vector3 prevAim = new Vector3(0, 10, 0);
-    private Vector3 defaultAimVia;
+    public Camera mainCamera;
+    public Vector3 defaultAimVia;
+    [Range(0.5f,3.0f)]public float minAimZ;
     private float aimViaHeight = 0;
-    private const float minAimZ = 2;
-    public MouseAimController(Camera mainCamera, Vector3 defaultAimVia)
-    {
-        this.mainCamera = mainCamera;
-        this.defaultAimVia = defaultAimVia;
-    }
+    private Vector3 prevAim = new Vector3(0, 10, 0);
+
     public AimControllerState GetAim()
     {
         Vector3? result = null;

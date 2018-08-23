@@ -10,9 +10,6 @@ public class TennisPlayer : MonoBehaviour {
     public Vector3 aimVia;
     public float spinA;
     public float spinB;
-    public bool isAutoShot;
-    public bool isAutoMove;
-    public bool isAutoAim;
 
     private IShotController shotController;
     private IMoveController moveController;
@@ -26,10 +23,9 @@ public class TennisPlayer : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        shotController = isAutoShot ? (IShotController)new AutoShotController(gameObject, ballObject.GetComponent<Rigidbody>()) : (IShotController)new KeyShotController();
-        moveController = isAutoMove ? (IMoveController)new AutoMoveController(gameObject, ballObject.GetComponent<Projectiler>(), ballObject.GetComponent<Rigidbody>()) : (IMoveController)new KeyMoveController();
-        aimController = isAutoAim ? (IAimController)new AutoAimController(gameObject,aimVia,new Vector2(-4,4),new Vector2(3,9)) : (IAimController)new MouseAimController(mainCamera,aimVia);
-
+        shotController = GetComponent<IShotController>();
+        moveController = GetComponent<IMoveController>();
+        aimController = GetComponent<IAimController>();
         ballController = ballObject.GetComponent<Projectiler>();
         rb = GetComponent<Rigidbody>();
         AudioSource[] clips = GetComponents<AudioSource>();
