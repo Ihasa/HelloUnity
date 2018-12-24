@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CamaraController : MonoBehaviour {
 
-    public GameObject player;
+    public TennisPlayer player;
     public GameObject ball;
-    public float height;
+    public Vector3 offset = new Vector3(0, 1.7f, 3f);
     private bool lookBall;
     
 	// Use this for initialization
@@ -28,7 +28,7 @@ public class CamaraController : MonoBehaviour {
 
     // Update is called once per frame
     void LateUpdate () {
-        Vector3 camPos = new Vector3(player.transform.position.x, height, player.transform.position.z);
+        Vector3 camPos = new Vector3(player.transform.position.x - player.direction * offset.x, player.transform.position.y + offset.y, player.transform.position.z - player.direction * offset.z);
         this.transform.position = camPos;
 
         Vector3 lookAt;

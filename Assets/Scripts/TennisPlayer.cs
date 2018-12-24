@@ -21,6 +21,8 @@ public class TennisPlayer : MonoBehaviour {
     private Vector2 cStateMovePrev;
     private bool shottable = false;
 
+    public int direction { get { return (int)-Mathf.Sign(this.transform.position.z); } }
+
     // Use this for initialization
     void Start () {
         shotController = GetComponent<IShotController>();
