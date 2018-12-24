@@ -12,7 +12,7 @@ public class CamaraController : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
-        cameraMode = new PlayerCamera();
+        cameraMode = new FixedCamera();
     }
 
     private void Update()
