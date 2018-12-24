@@ -6,39 +6,44 @@ public class CamaraController : MonoBehaviour {
 
     public TennisPlayer player;
     public GameObject ball;
-    public Vector3 offset = new Vector3(0, 1.7f, 3f);
+    public Vector3 posOffset = new Vector3(0, 1.7f, 3f);
+    public ICameraMode cameraMode;
     private bool lookBall;
     
 	// Use this for initialization
 	void Start () {
-	}
+        cameraMode = new PlayerCamera();
+    }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            lookBall = true;
+            if (!lookBall)
+            {
+                cameraMode = new BallLookCamera();
+                lookBall = true;
+            }
 
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            lookBall = false;
+            if (lookBall)
+            {
+                cameraMode = new PlayerCamera();
+                lookBall = false;
+            }
         }
     }
 
     // Update is called once per frame
     void LateUpdate () {
-        Vector3 camPos = new Vector3(player.transform.position.x - player.direction * offset.x, player.transform.position.y + offset.y, player.transform.position.z - player.direction * offset.z);
+        CameraControlData cControl = cameraMode.GetCameraControlData(player, ball, posOffset);
+
+        Vector3 camPos = cControl.Position;
         this.transform.position = camPos;
 
-        Vector3 lookAt;
-        if (lookBall)
-        {
-            lookAt = ball.transform.position;
-        } else
-        {
-            lookAt = camPos + Vector3.forward;
-        }
+        Vector3 lookAt = cControl.LookAt;
         this.transform.LookAt(lookAt);
 	}
 }
